@@ -58,9 +58,9 @@ with open(args.userurl_first, mode='r') as inputfile1:
             continue
         user, url = line.split(':', 1)
         users_first.add(user)
-        #urls_first.add(url)
+        urls_first.add(url)
         #ドメインベースでの解析
-        urls_first.add(urlparse(url).netloc)
+        #urls_first.add(urlparse(url).netloc)
         #userがキーに存在していない時、空集合を作成
         if user not in user_urls_first:
             #辞書の作成
@@ -82,9 +82,9 @@ with open(args.userurl_second, mode='r') as inputfile2:
             continue
         user, url = line.split(':', 1)
         users_second.add(user)
-        #urls_second.add(url)
+        urls_second.add(url)
         #ドメインベースでの解析
-        urls_second.add(urlparse(url).netloc)
+        #urls_second.add(urlparse(url).netloc)
         if user not in user_urls_second:
             user_urls_second[user] = {url}
         else:
@@ -114,7 +114,7 @@ for user in users:
     for _user, _urls in user_urls_second.items():
         similarity = sim_method[args.method](urls, _urls)
 
-        with open(re.sub("\\D", "", args.userurl_first) + '_' + re.sub("\\D", "", args.userurl_second)  + args.method + '.txt', 'a') as similarity_record:
+        with open(re.sub("\\D", "", args.userurl_first) + '_' + re.sub("\\D", "", args.userurl_second)  + args.method + '_bookmark.txt', 'a') as similarity_record:
             print('second', user.rstrip(), _user.rstrip(), similarity, file=similarity_record)
         # # similarityと_userをplot
         # if similarity != 0:
@@ -157,7 +157,7 @@ for user in users:
     for _user, _urls in user_urls_first.items():
         similarity = sim_method[args.method](urls, _urls)
 
-        with open(re.sub("\\D", "", args.userurl_first) + '_' + re.sub("\\D", "", args.userurl_second) + args.method + '.txt', 'a') as similarity_record:
+        with open(re.sub("\\D", "", args.userurl_first) + '_' + re.sub("\\D", "", args.userurl_second) + args.method + '_bookmark.txt', 'a') as similarity_record:
             print('first', user.rstrip(),  _user.rstrip(), similarity, file=similarity_record)
 
         # # similarityと_userをplot
@@ -224,7 +224,7 @@ for user in users:
 
 # ユーザの一致率を出力
 # print('Match rate: {}'.format(match / (2 * len(users))))
-with open('result.txt', 'a') as result:
+with open('result_bookmark.txt', 'a') as result:
     # print(user_number, file=result)
     print(re.sub("\\D", "", args.userurl_first) + '_' + re.sub("\\D", "", args.userurl_second) , args.method, file=result)
     print('Match rate: {}'.format(match / (2 * len(users))), file=result)
